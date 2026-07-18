@@ -22,16 +22,16 @@ Anchor focuses on preparation, low-friction access, and calm interaction design 
 <table>
   <tr>
     <td align="center">
-      <img width="210" alt="Anchor Home Screen" src="BuildWeekScreenshots/v25-home-final.png" />
+      <img width="210" height="455" alt="Anchor Home Screen" src="BuildWeekScreenshots/v25-home-final.png" />
     </td>
     <td align="center">
-      <img width="210" alt="Anchor Reset Screen" src="BuildWeekScreenshots/v25-reset-final.png" />
+      <img width="210" height="455" alt="Anchor Reset Screen" src="BuildWeekScreenshots/v25-reset-final.png" />
     </td>
     <td align="center">
-      <img width="210" alt="Anchor Shield Screen" src="BuildWeekScreenshots/v25-shield-final.png" />
+      <img width="210" height="455" alt="Anchor Shield Screen" src="BuildWeekScreenshots/v25-shield-final.png" />
     </td>
     <td align="center">
-      <img width="210" alt="Anchor Prepare Screen" src="BuildWeekScreenshots/v25-prepare-final.png" />
+      <img width="210" height="455" alt="Anchor Prepare Screen" src="BuildWeekScreenshots/v25-prepare-final.png" />
     </td>
   </tr>
   <tr>
@@ -296,3 +296,4 @@ Copyright © 2026 Ryunosuke Nakamura. All rights reserved.
 
 Created by Ryunosuke Nakamura.  
 GitHub: [@ryuusuraimu](https://github.com/ryuusuraimu)
+
