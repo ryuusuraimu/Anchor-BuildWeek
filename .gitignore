@@ -1,0 +1,17 @@
+.DS_Store
+.env.local
+
+# Swift Package Manager
+.build/
+.swiftpm/xcode/package.xcworkspace/xcuserdata/
+.swiftpm/xcode/xcuserdata/
+
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# Playgrounds / temporary
+timeline.xctimeline
+playground.xcworkspace/
+anchor-simulator-check.png
