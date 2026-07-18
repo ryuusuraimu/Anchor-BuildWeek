@@ -4,7 +4,7 @@
   <img width="893" height="300" alt="Anchor Logo" src="https://github.com/user-attachments/assets/c388cf86-e9ae-4612-b297-a8d205791e59" />
 </p>
 
-Anchor is an iPhone app originally created as a submission project for Apple's Swift Student Challenge 2026 and now being prepared for its first public release.
+Anchor was born as a submission project for Apple's Swift Student Challenge (SSC) 2026 and was later strengthened during OpenAI Build Week on Devpost. The Build Week iteration deepens the original idea with a more complete preparation flow, a deterministic emergency Shield, and a calmer, more accessible product experience.
 
 It explores a social issue: how technology can support people who may struggle to communicate, make decisions, or ask for help during panic, anxiety, stress, or emotional overwhelm.
 
@@ -66,7 +66,9 @@ The current Build Week experience includes:
 
 ## Background
 
-Anchor began from a personal experience involving the creator's mother.
+Anchor began from a personal experience involving the creator's mother and was first shaped through Apple's Swift Student Challenge (SSC) 2026.
+
+During OpenAI Build Week on Devpost, the project was expanded and refined around the same core question: how can technology help someone communicate when speaking, deciding, or asking for help becomes difficult?
 
 That experience led to a broader question:
 
