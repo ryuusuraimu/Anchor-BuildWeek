@@ -12,9 +12,12 @@
   `/private/tmp/AnchorBuildWeek.xcarchive`.
 - The resulting archive contains an arm64 iOS app with bundle identifier
   `com.Ryunosuke.AnchorBuildWeek`, version `1.1`, build `1`, and minimum iOS `17.0`.
-- The remaining archive step is signing with the user's Apple Developer team and
-  installing the signed archive on a physical iPhone. The duplicate `Assets.xcassets`
-  warning remains non-blocking.
+- Automatic Apple Development signing also succeeded with Team `V7F5K95K4G`; the
+  signed archive passed `codesign --verify --deep --strict` and exported a 25 MB
+  development IPA at `/private/tmp/AnchorBuildWeek-export/Anchor Build Week.ipa`.
+- The duplicate `Assets.xcassets` warning remains non-blocking. Distribution signing,
+  App Store Connect validation/upload, and physical-device installation are still
+  unverified because the connected iPhone is currently offline.
 
 Last updated: 2026-07-20
 
