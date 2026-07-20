@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <defs>
+    <linearGradient id="canvas" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBFCF9"/>
+      <stop offset="0.52" stop-color="#F3F7F4"/>
+      <stop offset="1" stop-color="#EAF2EF"/>
+    </linearGradient>
+    <radialGradient id="airTop" cx="50%" cy="0%" r="90%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.94"/>
+      <stop offset="0.38" stop-color="#DDEDE7" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#DDEDE7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="airSide" cx="100%" cy="36%" r="62%">
+      <stop offset="0" stop-color="#B9D9D1" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#B9D9D1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="presence" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.24" stop-color="#D4ECE5" stop-opacity="0.42"/>
+      <stop offset="0.72" stop-color="#5E9289" stop-opacity="0.82"/>
+      <stop offset="1" stop-color="#174D50" stop-opacity="0.96"/>
+    </linearGradient>
+    <radialGradient id="presenceBase" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#27686A" stop-opacity="0.55"/>
+      <stop offset="0.42" stop-color="#7DB0A6" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#BFD8D1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="button" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#164F53"/>
+      <stop offset="1" stop-color="#0A3D42"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.86"/>
+      <stop offset="1" stop-color="#F7FAF7" stop-opacity="0.68"/>
+    </linearGradient>
+    <linearGradient id="seal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DDEFE9"/>
+      <stop offset="1" stop-color="#B8D5CC"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#183A3B" flood-opacity="0.12"/>
+    </filter>
+    <filter id="buttonShadow" x="-20%" y="-40%" width="140%" height="190%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#113E41" flood-opacity="0.20"/>
+    </filter>
+  </defs>
+
+  <!-- Calm optical field -->
+  <rect width="390" height="844" fill="url(#canvas)"/>
+  <rect width="390" height="470" fill="url(#airTop)"/>
+  <rect width="390" height="640" fill="url(#airSide)"/>
+  <path d="M-40 254 C78 211 119 252 195 229 C275 204 315 127 444 137" fill="none" stroke="#FFFFFF" stroke-opacity="0.58" stroke-width="1"/>
+  <path d="M-48 266 C68 228 123 270 201 242 C292 209 327 150 448 153" fill="none" stroke="#A9CEC5" stroke-opacity="0.18" stroke-width="1"/>
+
+  <!-- iOS status bar -->
+  <text x="24" y="29" fill="#172C2F" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="13" font-weight="600">9:41</text>
+  <g fill="none" stroke="#172C2F" stroke-width="1.6" stroke-linecap="round">
+    <path d="M315 25 v-3 M320 25 v-5 M325 25 v-7 M330 25 v-9"/>
+    <path d="M338 20.5 C343 16.5 349 16.5 354 20.5 M340.5 23 C344 20.2 348 20.2 351.5 23 M345.2 25.5 h1.5"/>
+    <rect x="361" y="17" width="21" height="10" rx="3"/>
+    <path d="M383.5 20.2 v3.6"/>
+  </g>
+  <rect x="363.5" y="19.2" width="15.5" height="5.6" rx="1.5" fill="#172C2F"/>
+
+  <!-- Header -->
+  <text x="24" y="74" fill="#172C2F" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="22" font-weight="650" letter-spacing="-0.45">Anchor</text>
+  <g transform="translate(335 51)" fill="none" stroke="#315153" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="15" cy="15" r="14" fill="#FFFFFF" fill-opacity="0.46" stroke="#FFFFFF" stroke-opacity="0.82"/>
+    <circle cx="15" cy="15" r="3.3"/>
+    <path d="M15 8.5 v-2 M15 23.5 v-2 M8.5 15 h-2 M23.5 15 h-2 M10.4 10.4 9 9 M21 21l-1.4-1.4 M19.6 10.4 21 9 M9 21l1.4-1.4"/>
+  </g>
+
+  <!-- Anchored Presence: refraction, not mascot -->
+  <g>
+    <ellipse cx="195" cy="191" rx="67" ry="22" fill="url(#presenceBase)"/>
+    <path d="M195 102 C191 127 192 151 188 171 C186 182 178 188 163 191 C177 193 187 194 195 194 C203 194 213 193 227 191 C212 188 204 182 202 171 C198 151 199 127 195 102Z" fill="url(#presence)"/>
+    <path d="M195 109 C194 137 194 166 195 190" stroke="#F8FFFC" stroke-opacity="0.88" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M166 191 C181 192 209 192 224 191" stroke="#FFFFFF" stroke-opacity="0.76" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- Hero statement -->
+  <rect x="24" y="242" width="3" height="112" rx="1.5" fill="#E7836F"/>
+  <text x="44" y="276" fill="#172C2F" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="37" font-weight="650" letter-spacing="-1.5">
+    <tspan x="44" dy="0">Support,</tspan>
+    <tspan x="44" dy="42">ready when</tspan>
+    <tspan x="44" dy="42">words are hard.</tspan>
+  </text>
+
+  <!-- Primary action -->
+  <g filter="url(#buttonShadow)">
+    <rect x="24" y="391" width="342" height="66" rx="20" fill="url(#button)"/>
+    <rect x="24.75" y="391.75" width="340.5" height="64.5" rx="19.25" fill="none" stroke="#6FA29D" stroke-opacity="0.42" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(48 410)" fill="none" stroke="#F7FAF7" stroke-width="1.8" stroke-linejoin="round">
+    <path d="M10 0 20 4v8c0 6.7-4.4 10.7-10 13C4.4 22.7 0 18.7 0 12V4Z" fill="#F7FAF7" fill-opacity="0.14"/>
+    <path d="M10 4v16" stroke-opacity="0.25"/>
+  </g>
+  <text x="84" y="432" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="18" font-weight="650">Open Shield</text>
+  <path d="M333 416 341 424 333 432 M340.5 424H326" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Readiness, deliberately not carded -->
+  <path d="M24 500 H366" stroke="#66807E" stroke-opacity="0.24" stroke-width="1"/>
+  <circle cx="55" cy="550" r="27" fill="url(#seal)"/>
+  <circle cx="55" cy="550" r="26.25" fill="none" stroke="#FFFFFF" stroke-opacity="0.58" stroke-width="1.5"/>
+  <path d="M44 550.5 51.5 558 66 541.5" fill="none" stroke="#174D50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="96" y="543" fill="#172C2F" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="17" font-weight="650">Your words are ready</text>
+  <text x="96" y="568" fill="#5D6D6B" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="14" font-weight="400">
+    <tspan x="96" dy="0">Your support instructions are saved</tspan>
+    <tspan x="96" dy="20">and ready to share.</tspan>
+  </text>
+
+  <!-- Secondary action -->
+  <text x="24" y="650" fill="#234F52" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="16" font-weight="600">Review my support</text>
+  <path d="M338 642 346 650 338 658 M345.5 650H330" fill="none" stroke="#234F52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24 671 H346" stroke="#234F52" stroke-opacity="0.72" stroke-width="1"/>
+
+  <!-- Translucent navigation: the only calm glass surface -->
+  <g filter="url(#softShadow)">
+    <rect x="20" y="742" width="350" height="76" rx="27" fill="url(#glass)"/>
+    <rect x="20.75" y="742.75" width="348.5" height="74.5" rx="26.25" fill="none" stroke="#FFFFFF" stroke-opacity="0.95" stroke-width="1.5"/>
+  </g>
+  <rect x="29" y="751" width="102" height="58" rx="21" fill="#DCE9E5" fill-opacity="0.76"/>
+  <g transform="translate(69 763)" fill="none" stroke="#174D50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 10 11 1l11 9"/>
+    <path d="M4 8v13h14V8 M9 21v-7h4v7"/>
+  </g>
+  <text x="80" y="803" text-anchor="middle" fill="#174D50" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="11.5" font-weight="650">Home</text>
+  <g transform="translate(184 765)" fill="none" stroke="#526462" stroke-width="1.8" stroke-linejoin="round">
+    <path d="M11 0 21 4v8c0 6.7-4.4 10.7-10 13C5.4 22.7 1 18.7 1 12V4Z"/>
+  </g>
+  <text x="195" y="803" text-anchor="middle" fill="#526462" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="11.5" font-weight="500">Shield</text>
+  <g transform="translate(299 765)" fill="none" stroke="#526462" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="5" r="4"/>
+    <path d="M3 21c0-5 3-8 8-8s8 3 8 8"/>
+  </g>
+  <text x="310" y="803" text-anchor="middle" fill="#526462" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="11.5" font-weight="500">Prepare</text>
+  <rect x="128" y="832" width="134" height="5" rx="2.5" fill="#172C2F"/>
+</svg>

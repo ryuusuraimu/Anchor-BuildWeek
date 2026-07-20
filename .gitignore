@@ -3,6 +3,7 @@
 
 # Swift Package Manager
 .build/
+.swiftpm/
 .swiftpm/xcode/package.xcworkspace/xcuserdata/
 .swiftpm/xcode/xcuserdata/
 
@@ -15,3 +16,19 @@ xcuserdata/
 timeline.xctimeline
 playground.xcworkspace/
 anchor-simulator-check.png
+
+# Review-only media and historical capture archives.
+# The app does not bundle these files; the latest submission captures remain tracked.
+BuildWeekVideos/
+BuildWeekScreenshots/*
+!BuildWeekScreenshots/2026-07-20/
+!BuildWeekScreenshots/2026-07-20/*.png
+UIAuditScreenshots/
+DesignPreviews/
+
+# Local tooling dependencies and generated media.
+node_modules/
+*.aac
+
+# Optional design MCP tooling is not required to build the iOS package.
+Tools/StitchMCPProxy/

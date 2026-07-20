@@ -978,3 +978,99 @@ struct OneMinuteAnchorView: View {
       if let flagIndex = arguments.firstIndex(of: "-prepareStep"),
         arguments.indices.contains(flagIndex + 1),
         let requestedStep = Int(arguments[flagIndex + 1])
+      {
+        isComplete = false
+        stepIndex = min(max(requestedStep, 0), steps.count - 1)
+      }
+
+      if arguments.contains("-showPrepareComplete") {
+        isComplete = true
+      }
+
+      if arguments.contains("-showContactEditor") {
+        stepIndex = Step.support.rawValue
+        contactDraft = EmergencyContactDraft(from: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+          contactSheet = .editor
+        }
+      }
+    #endif
+  }
+}
+
+private struct PrepareSurface<Content: View>: View {
+  private let content: Content
+
+  init(@ViewBuilder content: () -> Content) {
+    self.content = content()
+  }
+
+  var body: some View {
+    content
+      .padding(18)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .background(BuildWeekDesign.HumanSignal.surface)
+      .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+      .overlay {
+        RoundedRectangle(cornerRadius: 14, style: .continuous)
+          .stroke(BuildWeekDesign.HumanSignal.line, lineWidth: 1)
+      }
+  }
+}
+
+private struct PrepareSuggestionRow: View {
+  let title: String
+  let isSelected: Bool
+  let action: () -> Void
+
+  var body: some View {
+    Button(action: action) {
+      HStack(alignment: .center, spacing: 14) {
+        Text(title)
+          .font(.body.weight(.semibold))
+          .fontDesign(.default)
+          .fixedSize(horizontal: false, vertical: true)
+
+        Spacer(minLength: 8)
+
+        Image(systemName: isSelected ? "checkmark" : "plus")
+          .font(.system(size: 14, weight: .bold))
+          .frame(width: 24, height: 24)
+      }
+      .foregroundStyle(BuildWeekDesign.HumanSignal.ink)
+      .padding(.horizontal, 16)
+      .padding(.vertical, 12)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .frame(minHeight: 58)
+      .background(
+        isSelected
+          ? BuildWeekDesign.HumanSignal.seaGlass.opacity(0.18)
+          : Color.clear,
+        in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+      )
+      .overlay {
+        RoundedRectangle(cornerRadius: 14, style: .continuous)
+          .stroke(
+            isSelected
+              ? BuildWeekDesign.HumanSignal.action
+              : BuildWeekDesign.HumanSignal.line,
+            lineWidth: isSelected ? 1.4 : 1
+          )
+      }
+    }
+    .buttonStyle(.plain)
+    .accessibilityAddTraits(isSelected ? .isSelected : [])
+    .accessibilityHint(
+      isSelected
+        ? "This answer is selected."
+        : "Replaces the current answer with this sentence."
+    )
+  }
+}
+
+#Preview {
+  OneMinuteAnchorView()
+    .environmentObject(EmergencyContactStore())
+    .environmentObject(AppRouter.shared)
+    .environment(SettingsStore())
+}

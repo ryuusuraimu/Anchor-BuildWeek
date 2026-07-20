@@ -22,16 +22,16 @@ Anchor focuses on preparation, low-friction access, and calm interaction design 
 <table>
   <tr>
     <td align="center">
-      <img width="210" height="455" alt="Anchor Home Screen" src="BuildWeekScreenshots/v25-home-final.png" />
+      <img width="210" height="455" alt="Anchor Home Screen (Simulator, 2026-07-20)" src="BuildWeekScreenshots/2026-07-20/01-home-current.png" />
     </td>
     <td align="center">
-      <img width="210" height="455" alt="Anchor Reset Screen" src="BuildWeekScreenshots/v25-reset-final.png" />
+      <img width="210" height="455" alt="Anchor Reset Screen (Simulator, 2026-07-20)" src="BuildWeekScreenshots/2026-07-20/06-reset-current.png" />
     </td>
     <td align="center">
-      <img width="210" height="455" alt="Anchor Shield Screen" src="BuildWeekScreenshots/v25-shield-final.png" />
+      <img width="210" height="455" alt="Anchor Shield Screen (Simulator, 2026-07-20)" src="BuildWeekScreenshots/2026-07-20/03-shield-current.png" />
     </td>
     <td align="center">
-      <img width="210" height="455" alt="Anchor Prepare Screen" src="BuildWeekScreenshots/v25-prepare-final.png" />
+      <img width="210" height="455" alt="Anchor Prepare Screen (Simulator, 2026-07-20)" src="BuildWeekScreenshots/2026-07-20/02-prepare-complete-current.png" />
     </td>
   </tr>
   <tr>
@@ -39,6 +39,23 @@ Anchor focuses on preparation, low-friction access, and calm interaction design 
     <td align="center"><b>Reset</b></td>
     <td align="center"><b>Shield</b></td>
     <td align="center"><b>Prepare</b></td>
+  </tr>
+</table>
+
+Additional current states captured from the same iPhone 17 Pro Simulator build:
+
+<table>
+  <tr>
+    <td align="center">
+      <img width="210" height="455" alt="Anchor Shield QR sharing screen (Simulator, 2026-07-20)" src="BuildWeekScreenshots/2026-07-20/04-shield-qr-current.png" />
+    </td>
+    <td align="center">
+      <img width="210" height="455" alt="Anchor Voice and reading settings (Simulator, 2026-07-20)" src="BuildWeekScreenshots/2026-07-20/05-voice-settings-current.png" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>Shield QR</b></td>
+    <td align="center"><b>Voice &amp; reading</b></td>
   </tr>
 </table>
 
@@ -242,6 +259,41 @@ git clone https://github.com/ryuusuraimu/Anchor-BuildWeek.git
 
 3. Build and run the app on an iOS simulator or a physical device.
 
+### Optional OpenAI voice setup
+
+The voice feature is an optional preparation-time enhancement. The Shield remains
+usable without a network connection: it plays the saved AAC reading when available
+and falls back to the iOS voice when it is not. The public repository contains only
+the proxy source, never an API key or a hosted unauthenticated endpoint.
+
+To try OpenAI voice locally, copy `VoiceProxy/.env.example` to
+`VoiceProxy/.env.local`, add your own API key, and run:
+
+```sh
+node --env-file=VoiceProxy/.env.local VoiceProxy/server.mjs
+```
+
+For Simulator, use `http://127.0.0.1:8787/v1/speech`. For a physical iPhone, use a
+reachable HTTPS deployment or a temporary LAN endpoint and pass
+`-voiceProxyURL <endpoint>/v1/speech` in the Xcode Run scheme. Do not commit
+`.env.local`, expose the API key, or publish an unauthenticated proxy.
+
+Validate the key-isolating request contract without contacting OpenAI:
+
+```sh
+node --test VoiceProxy/contract.test.mjs
+```
+
+### Build Week submission notes
+
+This repository is the separate OpenAI Build Week edition of Anchor. The original
+SSC project remains in its own repository. The Build Week work is intentionally
+focused on a meaningful, local-first use of OpenAI speech during preparation:
+selected voice + prepared text are sent to the local key-isolating proxy, the AAC
+result is cached on-device, and Shield does not make a network request in the hard
+moment. Codex/GPT-5.6 was used to iterate the SwiftUI architecture, accessibility
+states, VoiceProxy contract, verification scripts, and the product demonstration.
+
 ---
 
 ## Status
@@ -289,7 +341,7 @@ If you are in immediate danger or need urgent help, please contact local emergen
 
 This repository is shared for portfolio and evaluation purposes only.
 
-This project is not open source.  
+This project is not open source.
 All rights are reserved by the author.
 
 You may not copy, modify, redistribute, publish, use, or incorporate this code, design, assets, screenshots, documentation, or product concept in whole or in part without explicit written permission from the author.
@@ -298,3 +350,7 @@ Copyright © 2026 Ryunosuke Nakamura. All rights reserved.
 
 ---
 
+## Author
+
+Created by Ryunosuke Nakamura.
+GitHub: [@ryuusuraimu](https://github.com/ryuusuraimu)
