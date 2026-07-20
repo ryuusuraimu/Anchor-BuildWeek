@@ -10,6 +10,8 @@ final class ShieldVoiceLibrary: NSObject, @preconcurrency AVAudioPlayerDelegate 
 
   enum VoiceError: LocalizedError {
     case proxyNotConfigured
+    case proxyUnavailable
+    case quotaExhausted
     case invalidResponse
     case requestFailed
 
@@ -17,6 +19,15 @@ final class ShieldVoiceLibrary: NSObject, @preconcurrency AVAudioPlayerDelegate 
       switch self {
       case .proxyNotConfigured:
         return "Voice generation is not configured for this build."
+      case .proxyUnavailable:
+        return
+          "The voice service cannot be reached. Start VoiceProxy on the Mac for Simulator, "
+          + "or use a reachable HTTPS proxy on iPhone. Shield will use the iOS voice until "
+          + "a saved reading is ready."
+      case .quotaExhausted:
+        return
+          "OpenAI voice quota is unavailable right now. Add API credits or continue "
+          + "with the iOS voice."
       case .invalidResponse:
         return "The voice service returned an unreadable response."
       case .requestFailed:
@@ -123,12 +134,23 @@ final class ShieldVoiceLibrary: NSObject, @preconcurrency AVAudioPlayerDelegate 
       configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
       let (data, response) = try await URLSession(configuration: configuration).data(for: request)
 
-      guard let httpResponse = response as? HTTPURLResponse,
-        httpResponse.statusCode == 200,
-        data.count > 128,
+      guard let httpResponse = response as? HTTPURLResponse else {
+        throw VoiceError.requestFailed
+      }
+
+      guard httpResponse.statusCode == 200 else {
+        if let proxyError = try? JSONDecoder().decode(ProxyError.self, from: data),
+          proxyError.code == "insufficient_quota"
+        {
+          throw VoiceError.quotaExhausted
+        }
+        throw VoiceError.requestFailed
+      }
+
+      guard data.count > 128,
         httpResponse.value(forHTTPHeaderField: "Content-Type")?.hasPrefix("audio/") == true
       else {
-        throw VoiceError.requestFailed
+        throw VoiceError.invalidResponse
       }
 
       try fileManager.createDirectory(
@@ -146,6 +168,16 @@ final class ShieldVoiceLibrary: NSObject, @preconcurrency AVAudioPlayerDelegate 
     } catch let error as VoiceError {
       errorMessage = error.localizedDescription
       throw error
+    } catch let error as URLError {
+      let voiceError: VoiceError
+      switch error.code {
+      case .cannotConnectToHost, .cannotFindHost, .networkConnectionLost, .timedOut:
+        voiceError = .proxyUnavailable
+      default:
+        voiceError = .requestFailed
+      }
+      errorMessage = voiceError.localizedDescription
+      throw voiceError
     } catch {
       let voiceError = VoiceError.requestFailed
       errorMessage = voiceError.localizedDescription
@@ -192,5 +224,9 @@ final class ShieldVoiceLibrary: NSObject, @preconcurrency AVAudioPlayerDelegate 
   private struct SpeechRequest: Encodable {
     let text: String
     let voice: String
+  }
+
+  private struct ProxyError: Decodable {
+    let code: String?
   }
 }
