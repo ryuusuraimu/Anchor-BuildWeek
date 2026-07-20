@@ -10,7 +10,23 @@ From `Anchor-BuildWeek.swiftpm`:
 node --env-file=.env.local VoiceProxy/server.mjs
 ```
 
-The debug iOS build connects to `http://127.0.0.1:8787/v1/speech`. The API key stays in `.env.local`, which is ignored by source control.
+The debug iOS Simulator build connects to `http://127.0.0.1:8787/v1/speech`. Start the proxy before tapping **Preview** or **Create offline reading**:
+
+```sh
+node --env-file=.env.local VoiceProxy/server.mjs
+```
+
+`127.0.0.1` points to the Mac when the app runs in Simulator. On a physical iPhone,
+bind the proxy to the Mac's LAN interface and pass the Mac's reachable address through
+the Xcode launch argument (or an `AnchorVoiceProxyURL` Info.plist value):
+
+```sh
+HOST=0.0.0.0 PORT=8787 node --env-file=.env.local VoiceProxy/server.mjs
+```
+
+Then launch with `-voiceProxyURL http://<mac-lan-ip>:8787/v1/speech`. For production,
+use HTTPS; never expose the API key or an unauthenticated proxy to the public internet.
+The API key stays in `.env.local`, which is ignored by source control.
 
 Do not include `.env.local` when sharing or archiving the project folder. This directory is not currently a Git working tree, so `.gitignore` alone does not protect a manually created ZIP.
 
