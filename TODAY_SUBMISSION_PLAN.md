@@ -55,15 +55,17 @@ Use these only if the UI still matches current copy. Because the app copy change
 ### Code / Build
 
 - [x] Run `Scripts/validate_ios_project.sh`.
-- [x] Run `Scripts/validate_ios_project.sh --build`.
-- [x] Record Codex build probe result in `BUILD_PROBE_RESULTS.md`.
-- [x] Build for iOS Simulator.
-- [x] Install and launch in iOS Simulator.
-- [ ] Configure signing/provisioning for `com.Ryunosuke.Anchor`.
-- [ ] Build for generic iOS device.
-- [ ] Archive with release signing.
+- [x] Run `Scripts/validate_ios_project.sh --build` (static checks passed; the
+      sandboxed optional probe warning was separately cleared with normal Xcode access).
+- [x] Record the final Xcode build/archive probes in `BUILD_PROBE_RESULTS.md`.
+- [x] Build the Release configuration for iOS Simulator.
+- [x] Install and launch the Release build in iOS Simulator.
+- [x] Configure development signing/provisioning for `com.Ryunosuke.AnchorBuildWeek`.
+- [x] Build for generic iOS device.
+- [x] Archive with Apple Development signing for physical-device verification.
+- [ ] Re-archive with App Store distribution signing.
 - [ ] If archive fails because of SwiftPM format, migrate using `NATIVE_IOS_MIGRATION_PLAN.md`.
-- [ ] Upload build to App Store Connect.
+- [ ] Upload the distribution-signed build to App Store Connect.
 
 ### App Store Connect
 
