@@ -1,18 +1,18 @@
 # Anchor Build Week Release Readiness
 
-Last updated: 2026-07-18
+Last updated: 2026-07-20
 
 ## Current Status
 
-The Build Week app is a **code- and simulator-verified release candidate**. The active
+The Build Week app is a **Release-compiled, unsigned-archive and simulator-verified release candidate**. The active
 three-tab experience, Human Signal visual system, preparation flow, static Shield,
 Support Relay, QR, contact editing, Reset, and optional Aftercare are implemented.
 Selectable OpenAI speech is implemented behind a key-isolating VoiceProxy and prepared
 for offline Shield playback, but live voice generation is blocked by API quota.
 
-This status does not claim public-release completion: physical-device accessibility,
-Release signing/archive, and a complete manual interaction pass remain outside the
-current simulator evidence.
+This status does not claim public-release completion: Apple Developer signing,
+physical-device accessibility, and a complete manual interaction pass remain outside
+the current evidence.
 
 ## Completed
 
@@ -44,9 +44,14 @@ current simulator evidence.
 - `xcrun swift-format lint --strict` passed for every Swift file changed in the final
   pass.
 - `Scripts/validate_ios_project.sh` passed all static release-readiness checks on
-  2026-07-18.
-- `xcodebuild -scheme AnchorBuildWeek` succeeded for the iOS Simulator target
-  `2B3DE9BF-5CDC-4BF5-BB73-8EB3FA184545`.
+  2026-07-20.
+- `xcrun swift-format lint --strict` passed for all Swift sources.
+- `xcodebuild -scheme AnchorBuildWeek -configuration Release` succeeded for a
+  generic iOS Simulator destination on 2026-07-20.
+- `xcodebuild ... -destination 'generic/platform=iOS' ... CODE_SIGNING_ALLOWED=NO archive`
+  succeeded on 2026-07-20 and produced `/private/tmp/AnchorBuildWeek.xcarchive` with
+  bundle identifier `com.Ryunosuke.AnchorBuildWeek`, version `1.1`, build `1`, and
+  minimum iOS `17.0`.
 - Standard-size visual review completed for Home, Reset, Prepare, contact editing,
   Aftercare, Reset atmosphere selection, Shield, and QR.
 - Shield state review completed for no contact, multi-contact relay, long prepared copy,
@@ -79,11 +84,12 @@ a fragile manual manifest rewrite.
    scanning, brightness restoration, and screen-awake restoration.
 2. Perform a complete VoiceOver listening-order and action pass; screenshots cannot
    verify spoken order or announcements.
-3. Configure Release signing, archive, and confirm installation from the archived build.
+3. Configure Apple Developer Release signing, re-run Archive, and confirm installation
+   from the signed archive.
 4. Complete a manual persistence pass: add/reorder/edit contacts, relaunch, edit Shield
    copy, save Aftercare, and clear local data.
-5. Initialize or copy this source into the submission Git repository; the current
-   `Anchor-BuildWeek.swiftpm` folder is not itself a Git working tree.
+5. Confirm that the GitHub submission repository contains this exact Build Week source;
+   the local `Anchor-BuildWeek.swiftpm` folder is not itself a Git working tree.
 6. Record the sub-three-minute demo and complete the Devpost submission evidence.
 7. Add API billing or raise the project usage limit, deploy VoiceProxy behind HTTPS with
    rate limiting and app/device attestation, then verify Cedar AAC generation and offline
@@ -91,5 +97,5 @@ a fragile manual manifest rewrite.
 
 ## Recommended Next Action
 
-Resolve the OpenAI API quota and perform the physical-iPhone voice/offline playback
-check before recording the final Build Week demo.
+Connect the physical iPhone, enable the Apple Developer team for signing, run the
+five critical flows once, and record the final Build Week demo from the signed build.
