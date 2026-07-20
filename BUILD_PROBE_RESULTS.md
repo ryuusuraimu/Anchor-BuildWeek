@@ -1,6 +1,22 @@
 # Anchor Build Probe Results
 
-Last updated: 2026-07-18
+## Final Release probe — 2026-07-20
+
+- Static validation passed with `Scripts/validate_ios_project.sh --build` (the optional
+  sandboxed probe warning was caused by CoreSimulator/SwiftPM cache access, not source
+  compilation).
+- `xcrun swift-format lint --strict` passed for all Swift sources.
+- With normal Xcode access, `xcodebuild -list` resolved the `AnchorBuildWeek` scheme.
+- Release Simulator build succeeded for a generic iOS Simulator destination.
+- Unsigned device Archive succeeded for a generic iOS destination and produced
+  `/private/tmp/AnchorBuildWeek.xcarchive`.
+- The resulting archive contains an arm64 iOS app with bundle identifier
+  `com.Ryunosuke.AnchorBuildWeek`, version `1.1`, build `1`, and minimum iOS `17.0`.
+- The remaining archive step is signing with the user's Apple Developer team and
+  installing the signed archive on a physical iPhone. The duplicate `Assets.xcassets`
+  warning remains non-blocking.
+
+Last updated: 2026-07-20
 
 ## Prepared OpenAI voice — 2026-07-18
 
@@ -218,7 +234,7 @@ See `NATIVE_IOS_MIGRATION_PLAN.md`.
 
 ## Next Human-In-The-Loop Check
 
-Open `Anchor.swiftpm` in Xcode and try:
+Open `Anchor-BuildWeek.swiftpm` in Xcode and try:
 
 1. Select the Apple Developer team.
 2. Enable automatic signing if needed.
