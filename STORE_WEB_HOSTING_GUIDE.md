@@ -21,8 +21,8 @@ If using the existing GitHub repository, enable GitHub Pages and publish the `St
 Suggested public paths:
 
 ```text
-https://ryuusuraimu.github.io/Anchor.swiftpm/privacy.html
-https://ryuusuraimu.github.io/Anchor.swiftpm/support.html
+https://ryuusuraimu.github.io/Anchor-BuildWeek/privacy.html
+https://ryuusuraimu.github.io/Anchor-BuildWeek/support.html
 ```
 
 If GitHub Pages is configured to publish from a `/docs` folder instead, copy:
