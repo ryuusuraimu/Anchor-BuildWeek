@@ -4,15 +4,15 @@ Last updated: 2026-07-20
 
 ## Current Status
 
-The Build Week app is a **Release-compiled, unsigned-archive and simulator-verified release candidate**. The active
+The Build Week app is a **Release-compiled, signed-archive/IPA and simulator-verified release candidate**. The active
 three-tab experience, Human Signal visual system, preparation flow, static Shield,
 Support Relay, QR, contact editing, Reset, and optional Aftercare are implemented.
 Selectable OpenAI speech is implemented behind a key-isolating VoiceProxy and prepared
 for offline Shield playback, but live voice generation is blocked by API quota.
 
-This status does not claim public-release completion: Apple Developer signing,
-physical-device accessibility, and a complete manual interaction pass remain outside
-the current evidence.
+This status does not claim public-release completion: physical-device accessibility,
+distribution signing, and a complete manual interaction pass remain outside the
+current evidence.
 
 ## Completed
 
@@ -52,6 +52,9 @@ the current evidence.
   succeeded on 2026-07-20 and produced `/private/tmp/AnchorBuildWeek.xcarchive` with
   bundle identifier `com.Ryunosuke.AnchorBuildWeek`, version `1.1`, build `1`, and
   minimum iOS `17.0`.
+- Automatic Apple Development signing also succeeded with Team `V7F5K95K4G`; the
+  signed archive passed `codesign --verify --deep --strict` and exported a 25 MB
+  development IPA at `/private/tmp/AnchorBuildWeek-export/Anchor Build Week.ipa`.
 - Standard-size visual review completed for Home, Reset, Prepare, contact editing,
   Aftercare, Reset atmosphere selection, Shield, and QR.
 - Shield state review completed for no contact, multi-contact relay, long prepared copy,
@@ -84,8 +87,8 @@ a fragile manual manifest rewrite.
    scanning, brightness restoration, and screen-awake restoration.
 2. Perform a complete VoiceOver listening-order and action pass; screenshots cannot
    verify spoken order or announcements.
-3. Configure Apple Developer Release signing, re-run Archive, and confirm installation
-   from the signed archive.
+3. Switch the signed Archive to App Store distribution signing, validate it, and upload
+   the IPA through Transporter/App Store Connect.
 4. Complete a manual persistence pass: add/reorder/edit contacts, relaunch, edit Shield
    copy, save Aftercare, and clear local data.
 5. Confirm that the GitHub submission repository contains this exact Build Week source;
