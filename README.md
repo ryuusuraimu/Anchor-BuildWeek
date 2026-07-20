@@ -245,10 +245,10 @@ git clone https://github.com/ryuusuraimu/Anchor-BuildWeek.git
 
 ## Status
 
-The Build Week implementation is a Release-compiled, unsigned iOS Archive candidate
-and a simulator-verified release candidate for evaluation. The Archive was confirmed
-from the Swift Playgrounds package format on 2026-07-20; Apple Developer signing and
-physical-device verification remain before App Store Connect upload.
+The Build Week implementation is a Release-compiled, Apple Development-signed iOS
+Archive/IPA candidate and a simulator-verified release candidate for evaluation. The
+Swift Playgrounds package archived and exported successfully on 2026-07-20; physical-
+device installation and App Store distribution signing remain before public release.
 
 The current release direction is English-first, iPhone-only, local-first, account-free,
 ad-free, and deliberately avoids medical or treatment positioning. Physical-device,
