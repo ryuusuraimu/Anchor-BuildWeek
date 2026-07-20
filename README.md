@@ -234,7 +234,7 @@ The project is organized by feature modules.
 1. Clone this repository.
 
 ```bash
-git clone https://github.com/ryuusuraimu/Anchor.swiftpm.git
+git clone https://github.com/ryuusuraimu/Anchor-BuildWeek.git
 ```
 
 2. Open the project in Xcode or Swift Playgrounds.
@@ -245,7 +245,10 @@ git clone https://github.com/ryuusuraimu/Anchor.swiftpm.git
 
 ## Status
 
-The Build Week implementation is a simulator-verified release candidate for evaluation.
+The Build Week implementation is a Release-compiled, unsigned iOS Archive candidate
+and a simulator-verified release candidate for evaluation. The Archive was confirmed
+from the Swift Playgrounds package format on 2026-07-20; Apple Developer signing and
+physical-device verification remain before App Store Connect upload.
 
 The current release direction is English-first, iPhone-only, local-first, account-free,
 ad-free, and deliberately avoids medical or treatment positioning. Physical-device,
@@ -298,4 +301,3 @@ Copyright © 2026 Ryunosuke Nakamura. All rights reserved.
 
 Created by Ryunosuke Nakamura.  
 GitHub: [@ryuusuraimu](https://github.com/ryuusuraimu)
-
