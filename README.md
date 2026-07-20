@@ -59,7 +59,7 @@ The current Build Week experience includes:
 - A static, high-contrast Shield that remains independent from decorative motion
 - One-question-at-a-time preparation for a complete support card
 - Offline QR sharing and manual multi-contact Support Relay
-- A selectable OpenAI voice that is generated in advance and saved for offline Shield reading
+- A selectable OpenAI voice that syncs when preparation is finished and is saved for offline Shield reading
 - A dismissible, private aftercare check-in
 
 ---
@@ -163,8 +163,9 @@ directly to Shield.
 ### Safety boundary
 
 Shield performs no AI generation, network request, automatic decision, or decorative
-animation. OpenAI speech is generated only from the calm-state Voice & reading sheet,
-then saved locally; Shield plays that prepared AAC file without making a request and
+animation. OpenAI speech is generated from the calm-state preparation flow when the
+person finishes editing, then saved locally; changing the selected voice also refreshes
+the saved reading. Shield plays that prepared AAC file without making a request and
 falls back immediately to the iOS device voice if no file is ready. Prepared instructions
 and QR remain available offline; phone numbers are not included in the QR payload.
 
@@ -297,7 +298,3 @@ Copyright © 2026 Ryunosuke Nakamura. All rights reserved.
 
 ---
 
-## Author
-
-Created by Ryunosuke Nakamura.  
-GitHub: [@ryuusuraimu](https://github.com/ryuusuraimu)
