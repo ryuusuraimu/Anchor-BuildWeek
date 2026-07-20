@@ -62,7 +62,7 @@ struct BuildWeekVoiceSettingsView: View {
         .accessibilityAddTraits(.isHeader)
 
       Text(
-        "Choose and save your Shield reading now. In a hard moment, it plays from this iPhone without waiting for a connection."
+        "Your Shield voice syncs automatically when you finish editing. You can change the voice here anytime; the saved reading stays on this iPhone."
       )
       .font(.body)
       .foregroundStyle(BuildWeekDesign.HumanSignal.secondaryInk)
@@ -146,7 +146,7 @@ struct BuildWeekVoiceSettingsView: View {
           Text(
             isPrepared
               ? "Your current Shield wording is saved on this iPhone in \(settings.selectedOpenAIVoice.displayName)."
-              : "Create the full reading while you are calm and connected. Until then, Shield uses the device voice."
+              : "Finish editing your words to sync the selected voice. Until then, Shield uses the device voice."
           )
           .font(.subheadline)
           .foregroundStyle(BuildWeekDesign.HumanSignal.secondaryInk)
@@ -168,7 +168,7 @@ struct BuildWeekVoiceSettingsView: View {
           Text(
             voiceLibrary.isGenerating
               ? "Creating voice…"
-              : (isPrepared ? "Update offline reading" : "Create offline reading")
+              : (isPrepared ? "Sync offline reading" : "Create offline reading")
           )
           .font(.headline)
         }
@@ -282,6 +282,7 @@ struct BuildWeekVoiceSettingsView: View {
     actionError = nil
     settings.selectedOpenAIVoice = voice
     cacheRevision += 1
+    Task { await prepareShieldVoice() }
   }
 
   private func prepareShieldVoice() async {
