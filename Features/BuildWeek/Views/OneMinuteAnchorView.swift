@@ -6,12 +6,14 @@ struct OneMinuteAnchorView: View {
   @Environment(SettingsStore.self) private var settings
   @EnvironmentObject private var contactStore: EmergencyContactStore
   @State private var viewModel = StudioViewModel()
+  @State private var voiceLibrary = ShieldVoiceLibrary.shared
   @State private var stepIndex = 0
   @State private var isComplete = false
   @State private var showShield = false
   @State private var contactDraft = EmergencyContactDraft()
   @State private var contactSheet: ContactSheet?
   @State private var didApplyInitialState = false
+  @State private var voiceSyncError: String?
   @AccessibilityFocusState private var questionIsFocused: Bool
   @AppStorage("buildWeek.didCompleteOneMinuteAnchor") private var didCompletePreparation = false
 
@@ -634,15 +636,23 @@ struct OneMinuteAnchorView: View {
 
           PrepareSurface {
             VStack(alignment: .leading, spacing: 18) {
-              reviewRow(title: "First message", text: viewModel.config.situationText)
+              reviewRow(
+                title: "First message",
+                text: viewModel.config.situationText
+              )
               Divider().overlay(BuildWeekDesign.HumanSignal.line)
               reviewRow(title: "Please do", text: viewModel.config.doText)
               Divider().overlay(BuildWeekDesign.HumanSignal.line)
               reviewRow(title: "Please avoid", text: viewModel.config.dontText)
               Divider().overlay(BuildWeekDesign.HumanSignal.line)
-              reviewRow(title: "Urgent help", text: viewModel.config.safetyText ?? "")
+              reviewRow(
+                title: "Urgent help",
+                text: viewModel.config.safetyText ?? ""
+              )
             }
           }
+
+          voicePreparationCard
         }
         .padding(.horizontal, BuildWeekDesign.Metric.screenPadding)
         .padding(.top, 4)
@@ -708,6 +718,163 @@ struct OneMinuteAnchorView: View {
     .dynamicTypeSize(.xSmall ... .accessibility2)
   }
 
+  private var voicePreparationCard: some View {
+    PrepareSurface {
+      VStack(alignment: .leading, spacing: 14) {
+        HStack(alignment: .top, spacing: 12) {
+          Image(systemName: voiceIsPrepared ? "checkmark.circle.fill" : "waveform")
+            .font(.system(size: 22, weight: .medium))
+            .foregroundStyle(
+              voiceIsPrepared
+                ? BuildWeekDesign.HumanSignal.actionPressed
+                : BuildWeekDesign.HumanSignal.secondaryInk
+            )
+            .accessibilityHidden(true)
+
+          VStack(alignment: .leading, spacing: 4) {
+            Text("Shield voice")
+              .font(.headline)
+              .foregroundStyle(BuildWeekDesign.HumanSignal.ink)
+
+            Text(
+              voiceIsPrepared
+                ? "Saved offline in \(settings.selectedOpenAIVoice.displayName)."
+                : "It will sync automatically when you finish editing."
+            )
+            .font(.footnote.weight(.medium))
+            .foregroundStyle(BuildWeekDesign.HumanSignal.secondaryInk)
+            .fixedSize(horizontal: false, vertical: true)
+          }
+
+          Spacer(minLength: 8)
+          voiceMenu
+        }
+
+        if voiceLibrary.isGenerating {
+          HStack(spacing: 9) {
+            ProgressView()
+              .tint(BuildWeekDesign.HumanSignal.actionPressed)
+            Text("Updating your offline reading…")
+          }
+          .font(.footnote.weight(.semibold))
+          .foregroundStyle(BuildWeekDesign.HumanSignal.actionPressed)
+        } else if voiceIsPrepared {
+          Label("Ready without a connection", systemImage: "checkmark.shield.fill")
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(BuildWeekDesign.HumanSignal.actionPressed)
+        } else {
+          Label("Shield will use the iOS voice until this is ready.", systemImage: "iphone")
+            .font(.footnote.weight(.medium))
+            .foregroundStyle(BuildWeekDesign.HumanSignal.secondaryInk)
+        }
+
+        HStack(spacing: 12) {
+          Button {
+            Task { await previewSelectedVoice() }
+          } label: {
+            Label(
+              voiceLibrary.previewingVoice == settings.selectedOpenAIVoice ? "Stop" : "Preview",
+              systemImage: voiceLibrary.previewingVoice == settings.selectedOpenAIVoice
+                ? "stop.fill" : "play.fill"
+            )
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(BuildWeekDesign.HumanSignal.actionPressed)
+            .frame(maxWidth: .infinity, minHeight: 44)
+          }
+          .disabled(voiceLibrary.isGenerating)
+
+          if !voiceIsPrepared && !voiceLibrary.isGenerating {
+            Button {
+              Task { await syncPreparedVoice() }
+            } label: {
+              Label("Retry", systemImage: "arrow.clockwise")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(BuildWeekDesign.HumanSignal.actionPressed)
+                .frame(maxWidth: .infinity, minHeight: 44)
+            }
+          }
+        }
+
+        if let message = voiceSyncError ?? voiceLibrary.errorMessage {
+          Label(message, systemImage: "exclamationmark.circle")
+            .font(.footnote)
+            .foregroundStyle(Color(hex: "9B3D31"))
+            .fixedSize(horizontal: false, vertical: true)
+        }
+      }
+    }
+    .accessibilityElement(children: .contain)
+  }
+
+  private var voiceIsPrepared: Bool {
+    voiceLibrary.hasPreparedShieldVoice(
+      config: viewModel.config,
+      voice: settings.selectedOpenAIVoice
+    )
+  }
+
+  private var voiceMenu: some View {
+    Menu {
+      ForEach(OpenAIVoice.allCases) { voice in
+        Button {
+          selectVoice(voice)
+        } label: {
+          Label(
+            voice.isRecommended
+              ? "\(voice.displayName) — Recommended"
+              : voice.displayName,
+            systemImage: settings.selectedOpenAIVoice == voice ? "checkmark" : "waveform"
+          )
+        }
+      }
+    } label: {
+      HStack(spacing: 6) {
+        Text(settings.selectedOpenAIVoice.displayName)
+        Image(systemName: "chevron.up.chevron.down")
+          .font(.caption.weight(.bold))
+          .accessibilityHidden(true)
+      }
+      .font(.subheadline.weight(.semibold))
+      .foregroundStyle(BuildWeekDesign.HumanSignal.actionPressed)
+      .padding(.horizontal, 12)
+      .frame(minHeight: 44)
+      .background(BuildWeekDesign.HumanSignal.action.opacity(0.1))
+      .clipShape(Capsule())
+    }
+    .accessibilityLabel("Change Shield voice")
+  }
+
+  private func selectVoice(_ voice: OpenAIVoice) {
+    guard settings.selectedOpenAIVoice != voice else { return }
+    voiceLibrary.stopPreview()
+    voiceSyncError = nil
+    settings.selectedOpenAIVoice = voice
+    Task { await syncPreparedVoice() }
+  }
+
+  private func previewSelectedVoice() async {
+    voiceSyncError = nil
+    do {
+      try await voiceLibrary.preview(settings.selectedOpenAIVoice)
+    } catch {
+      voiceSyncError = error.localizedDescription
+    }
+  }
+
+  private func syncPreparedVoice() async {
+    guard hasRequiredContent else { return }
+    voiceLibrary.stopPreview()
+    voiceSyncError = nil
+    do {
+      try await voiceLibrary.generateShieldVoice(
+        config: viewModel.config,
+        voice: settings.selectedOpenAIVoice
+      )
+    } catch {
+      voiceSyncError = error.localizedDescription
+    }
+  }
+
   private func reviewRow(title: String, text: String) -> some View {
     VStack(alignment: .leading, spacing: 5) {
       Text(title.uppercased())
@@ -745,6 +912,7 @@ struct OneMinuteAnchorView: View {
       let isReady = hasRequiredContent
       didCompletePreparation = isReady
       isComplete = isReady
+      Task { await syncPreparedVoice() }
     } else {
       stepIndex += 1
     }
@@ -810,99 +978,3 @@ struct OneMinuteAnchorView: View {
       if let flagIndex = arguments.firstIndex(of: "-prepareStep"),
         arguments.indices.contains(flagIndex + 1),
         let requestedStep = Int(arguments[flagIndex + 1])
-      {
-        isComplete = false
-        stepIndex = min(max(requestedStep, 0), steps.count - 1)
-      }
-
-      if arguments.contains("-showPrepareComplete") {
-        isComplete = true
-      }
-
-      if arguments.contains("-showContactEditor") {
-        stepIndex = Step.support.rawValue
-        contactDraft = EmergencyContactDraft(from: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-          contactSheet = .editor
-        }
-      }
-    #endif
-  }
-}
-
-private struct PrepareSurface<Content: View>: View {
-  private let content: Content
-
-  init(@ViewBuilder content: () -> Content) {
-    self.content = content()
-  }
-
-  var body: some View {
-    content
-      .padding(18)
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .background(BuildWeekDesign.HumanSignal.surface)
-      .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-      .overlay {
-        RoundedRectangle(cornerRadius: 14, style: .continuous)
-          .stroke(BuildWeekDesign.HumanSignal.line, lineWidth: 1)
-      }
-  }
-}
-
-private struct PrepareSuggestionRow: View {
-  let title: String
-  let isSelected: Bool
-  let action: () -> Void
-
-  var body: some View {
-    Button(action: action) {
-      HStack(alignment: .center, spacing: 14) {
-        Text(title)
-          .font(.body.weight(.semibold))
-          .fontDesign(.default)
-          .fixedSize(horizontal: false, vertical: true)
-
-        Spacer(minLength: 8)
-
-        Image(systemName: isSelected ? "checkmark" : "plus")
-          .font(.system(size: 14, weight: .bold))
-          .frame(width: 24, height: 24)
-      }
-      .foregroundStyle(BuildWeekDesign.HumanSignal.ink)
-      .padding(.horizontal, 16)
-      .padding(.vertical, 12)
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .frame(minHeight: 58)
-      .background(
-        isSelected
-          ? BuildWeekDesign.HumanSignal.seaGlass.opacity(0.18)
-          : Color.clear,
-        in: RoundedRectangle(cornerRadius: 14, style: .continuous)
-      )
-      .overlay {
-        RoundedRectangle(cornerRadius: 14, style: .continuous)
-          .stroke(
-            isSelected
-              ? BuildWeekDesign.HumanSignal.action
-              : BuildWeekDesign.HumanSignal.line,
-            lineWidth: isSelected ? 1.4 : 1
-          )
-      }
-    }
-    .buttonStyle(.plain)
-    .accessibilityAddTraits(isSelected ? .isSelected : [])
-    .accessibilityHint(
-      isSelected
-        ? "This answer is selected."
-        : "Replaces the current answer with this sentence."
-    )
-  }
-}
-
-#Preview {
-  OneMinuteAnchorView()
-    .environmentObject(EmergencyContactStore())
-    .environmentObject(AppRouter.shared)
-    .environment(SettingsStore())
-}
