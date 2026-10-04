@@ -1,5 +1,7 @@
 # Anchor
 
+<img src="BuildWeekScreenshots/appicon/icon.png" alt="Anchor app icon" width="128">
+
 Anchor is an iPhone app built with SwiftUI that helps a person prepare support information before a stressful moment. It is a portfolio project exploring how a focused interface can make it easier to communicate when speaking or making decisions feels difficult. It is not a medical device, diagnostic tool, or emergency service.
 
 ## The problem
