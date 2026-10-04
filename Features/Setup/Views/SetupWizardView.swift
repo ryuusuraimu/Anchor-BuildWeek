@@ -102,7 +102,7 @@ struct SetupWizardView: View {
   private var topBar: some View {
     HStack {
       HStack(spacing: 8) {
-        Image("AnchorSymbol", bundle: .module)
+        Image("AnchorSymbol", bundle: .main)
           .resizable()
           .scaledToFit()
           .frame(width: 26, height: 26)
@@ -358,7 +358,7 @@ private struct OnboardingPage: View {
         )
         .shadow(color: Color.black.opacity(0.055), radius: 24, x: 0, y: 14)
 
-      Image(step.assetName, bundle: .module)
+      Image(step.assetName, bundle: .main)
         .resizable()
         .scaledToFill()
         .frame(maxWidth: .infinity)

@@ -10,8 +10,8 @@ struct HomeHeroView: View {
 
       ZStack {
         // Background Image
-        if let uiImage = UIImage(named: "AnchorCalmIllustration", in: .module, compatibleWith: nil)
-          ?? UIImage(named: "HomeHero.jpg", in: .module, compatibleWith: nil)
+        if let uiImage = UIImage(named: "AnchorCalmIllustration", in: .main, compatibleWith: nil)
+          ?? UIImage(named: "HomeHero.jpg", in: .main, compatibleWith: nil)
         {
           Image(uiImage: uiImage)
             .resizable()

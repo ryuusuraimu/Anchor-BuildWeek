@@ -155,7 +155,7 @@ struct AnchorIllustrationPanel: View {
 
   var body: some View {
     ZStack(alignment: .bottomLeading) {
-      Image("AnchorCalmIllustration", bundle: .module)
+      Image("AnchorCalmIllustration", bundle: .main)
         .resizable()
         .scaledToFill()
         .frame(maxWidth: .infinity, minHeight: minHeight, maxHeight: minHeight)

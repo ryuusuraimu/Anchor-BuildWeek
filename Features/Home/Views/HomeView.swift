@@ -277,7 +277,7 @@ struct HomeView: View {
   }
 
   private func todayAnchorImage(size: CGFloat) -> some View {
-    Image("AnchorCalmIllustration", bundle: .module)
+    Image("AnchorCalmIllustration", bundle: .main)
       .resizable()
       .scaledToFill()
       .frame(width: size, height: size)

@@ -1,34 +1,31 @@
+# macOS and local editor state
 .DS_Store
-.env.local
 
-# Swift Package Manager
+# Local credentials and secret material
+.env
+.env.*
+!.env.example
+**/*.pem
+**/*.key
+**/*.p12
+**/*.p8
+**/*.mobileprovision
+**/*credentials*
+**/*secret*
+
+# Swift Package Manager and Xcode output
 .build/
 .swiftpm/
-.swiftpm/xcode/package.xcworkspace/xcuserdata/
-.swiftpm/xcode/xcuserdata/
-
-# Xcode
 DerivedData/
 *.xcuserstate
 xcuserdata/
 
-# Playgrounds / temporary
-timeline.xctimeline
-playground.xcworkspace/
-anchor-simulator-check.png
-
-# Review-only media and historical capture archives.
-# The app does not bundle these files; the latest submission captures remain tracked.
-BuildWeekVideos/
-BuildWeekScreenshots/*
-!BuildWeekScreenshots/2026-07-20/
-!BuildWeekScreenshots/2026-07-20/*.png
-UIAuditScreenshots/
-DesignPreviews/
-
-# Local tooling dependencies and generated media.
+# JavaScript dependencies and generated audio
 node_modules/
 *.aac
 
-# Optional design MCP tooling is not required to build the iOS package.
-Tools/StitchMCPProxy/
+# Local captures and design work files
+UIAuditScreenshots/
+DesignPreviews/
+BuildWeekVideos/
+anchor-simulator-check.png
